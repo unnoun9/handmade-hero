@@ -5,7 +5,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Launch",
-            "preLaunchTask": "Build",
+            // "preLaunchTask": "Build",
             "program": "${workspaceFolder}/build/handmade.exe",
             "args": [],
             "cwd": "${workspaceFolder}"

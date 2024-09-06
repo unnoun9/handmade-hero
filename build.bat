@@ -1,8 +1,12 @@
-:: this file should be ran from the workspace directory
-:: aka from "path-to-parent-dir-of-handmade-working-dir/handmade/"
 @echo off
+REM this file should be run from the workspace directory
+REM aka from "path-to-parent-dir-of-handmade-working-dir/handmade/"
 
-mkdir build
+if not exist build (
+    mkdir build
+)
+
+
 pushd code\
-clang++ -fdiagnostics-color=always -g -o ..\build\handmade.exe handmade.cpp
+clang++ -fdiagnostics-color=always -g -o ..\build\handmade.exe handmade.cpp -lgdi32 
 popd
