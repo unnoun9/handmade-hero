@@ -8,5 +8,5 @@ if not exist build (
 
 
 pushd code\
-clang++ -fdiagnostics-color=always -g -o ..\build\handmade.exe handmade.cpp -lgdi32 
+g++ -fdiagnostics-color=always -g -o ..\build\handmade.exe handmade.cpp -lgdi32 
 popd
