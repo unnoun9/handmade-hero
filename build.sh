@@ -1,7 +1,3 @@
-# this file should be run from the workspace directory
-
 mkdir -p build
-
-cd code
-g++ -fdiagnostics-color=always -g -o ../build/handmade.exe handmade.cpp -lgdi32 
-cd ..
+x86_64-w64-mingw32-g++ -fdiagnostics-color=always -g -o build/handmade.exe code/handmade.cpp -lgdi32 \
+    && WINEDEBUG=-all wine build/handmade.exe

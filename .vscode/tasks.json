@@ -4,11 +4,11 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "./build.bat",
+            "command": "${workspaceFolder}/build.bat",
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
-        },
+        }
     ]
 }

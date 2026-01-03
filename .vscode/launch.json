@@ -4,7 +4,7 @@
         {
             "type": "cppdbg",
             "request": "launch",
-            "name": "Launch (old)",
+            "name": "Debug in Windows (old)",
             // "preLaunchTask": "Build",
             "program": "${workspaceFolder}/build/handmade.exe",
             "args": [],
@@ -25,7 +25,7 @@
         {
             "type": "cppdbg",
             "request": "launch",
-            "name": "Launch",
+            "name": "Debug in Windows",
             "program": "${workspaceFolder}/build/handmade.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
