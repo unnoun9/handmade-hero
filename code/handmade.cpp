@@ -475,6 +475,10 @@ WinMain(HINSTANCE Instance,
         LPSTR CommandLine,
         int ShowCode)
 {
+    LARGE_INTEGER PerfCountFrequencyResult;
+    QueryPerformanceFrequency(&PerfCountFrequencyResult);
+    int64 PerfCountFrequency = PerfCountFrequencyResult.QuadPart;
+
     Win32LoadXInput();
 
     WNDCLASSA WindowClass = {};
@@ -517,7 +521,6 @@ WinMain(HINSTANCE Instance,
             SoundOutput.SecondaryBufferSize =
                     SoundOutput.SamplesPerSecond*SoundOutput.BytesPerSample;
             SoundOutput.LatencySampleCount = SoundOutput.SamplesPerSecond / 15;
-
             Win32InitDSound(Window, SoundOutput.SamplesPerSecond,
                             SoundOutput.SecondaryBufferSize);
             Win32FillSoundBuffer(&SoundOutput, 0,
@@ -525,6 +528,10 @@ WinMain(HINSTANCE Instance,
             GlobalSecondaryBuffer->Play(0, 0, DSBPLAY_LOOPING);
 
             GlobalRunning = true;
+
+            LARGE_INTEGER LastCounter;
+            QueryPerformanceCounter(&LastCounter);
+            uint64 LastCycleCount = __rdtsc();
             while(GlobalRunning)
             {
                 MSG Message;
@@ -626,7 +633,20 @@ WinMain(HINSTANCE Instance,
                 Win32DisplayBufferInWindow(&GlobalBackBuffer, DeviceContext,
                                             Dimension.Width, Dimension.Height);
 
-                XOffset++;
+                uint64 EndCycleCount = __rdtsc();
+                LARGE_INTEGER EndCounter;
+                QueryPerformanceCounter(&EndCounter);
+
+                uint64 CyclesElapsed = EndCycleCount - LastCycleCount;
+                int64 CounterElapsed = EndCounter.QuadPart - LastCounter.QuadPart;
+                real32 MSPerFrame = (real32)((1000.0f*CounterElapsed) / PerfCountFrequency);
+                real32 FPS = (real32)PerfCountFrequency / (real32)CounterElapsed;
+                real32 MCPF = (real32)(CyclesElapsed / (1000.0f * 1000.0f));
+                
+                printf("%.2fms/f,  %.2ff/s, %.2fMc/f\n", MSPerFrame, FPS, MCPF); // w[n]sprintf
+                
+                LastCounter = EndCounter;
+                LastCycleCount = EndCycleCount;
             }
         }
         else
